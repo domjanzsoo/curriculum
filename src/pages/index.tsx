@@ -3,6 +3,9 @@ import type { HeadFC, PageProps } from "gatsby"
 
 
 const IndexPage: React.FC<PageProps> = () => {
+  const color = ['green', 'red', 'blue'];
+  const modes = ['dark', 'light'];
+  
   return (
     <main>
       <div class="container mx-auto">
