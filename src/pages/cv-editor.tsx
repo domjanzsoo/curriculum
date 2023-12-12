@@ -4,24 +4,13 @@ import { Link } from 'gatsby';
 
 const Test = ({ text }) => (
     <div>
-      <p>Test: { text }</p>
-      {/* <button className="btn px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800" onClick={test}>Change</button> */}
+        <p>Test: { text }</p>
     </div>
-  )
-
-//   Test.propTypes = {
-//     tester: PropTypes.string.isRequired,
-//     test: PropTypes.func.isRequired,
-//   }
+)
 
 const mapStateToProps = state => {
-    console.log(state)
-    return state
-  }
-  
-// const mapDispatchToProps = dispatch => {
-// return { tester: () => dispatch({ type: `TEST`, value: 'blblaaaa' }) }
-// }
+    return state.test;
+}
   
 const ConnectedTest = connect(mapStateToProps)(Test)
 

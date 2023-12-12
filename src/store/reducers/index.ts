@@ -2,7 +2,7 @@ import {combineReducers } from 'redux';
 import testReducer from './test-reducer';
 
 const rootReducer = combineReducers({
-    testReducer,
+    test: testReducer,
 });
 
 export default rootReducer; 

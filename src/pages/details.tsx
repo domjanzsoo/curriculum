@@ -2,28 +2,24 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'gatsby';
 
-const Test = ({ text, textUpdate }) => (
+const Test = ({ test, textUpdate }) => (
     <div>
-    <p>Test: { text }</p>
-    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="text" type="text" name="text" onChange={event => textUpdate(event.target.value)} />
+        <p>Test: { test.text }</p>
+        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="text" type="text" name="text" onChange={event => textUpdate(event.target.value)} />
     </div>
-)
+);
 
 const mapStateToProps = state => {
-    return state
-}
+    return state;
+};
 
 const mapDispatchToProps = dispatch => {
-    console.log(dispatch);
-
     return { textUpdate: (changedText) => {
-        console.log(changedText);
         dispatch({type: 'TEST', changedText}) 
     }}
-}   
+};  
 
 const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test)
-
 
 const DetailsPage = () => {
     return (
