@@ -16,10 +16,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return { textUpdate: (changedText) => {
         dispatch({type: 'TEST', changedText}) 
-    }}
+    }};
 };  
 
-const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test)
+const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test);
 
 const DetailsPage = () => {
     return (
@@ -29,6 +29,6 @@ const DetailsPage = () => {
             <Link to="/cv-editor">Editor </Link>
         </main>
     )
-}
+};
 
-export default DetailsPage
+export default DetailsPage;

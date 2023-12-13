@@ -6,13 +6,13 @@ const Test = ({ text }) => (
     <div>
         <p>Test: { text }</p>
     </div>
-)
+);
 
 const mapStateToProps = state => {
     return state.test;
-}
+};
   
-const ConnectedTest = connect(mapStateToProps)(Test)
+const ConnectedTest = connect(mapStateToProps)(Test);
 
 const CVEditorPage = () => {
     return (
@@ -22,6 +22,6 @@ const CVEditorPage = () => {
                 <Link to="/details">Details</Link>
         </main>
     )
-}
+};
 
-export default CVEditorPage
+export default CVEditorPage;
