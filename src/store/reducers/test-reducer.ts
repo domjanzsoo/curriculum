@@ -6,7 +6,7 @@ interface TestState {
 }
 
 const initialState = {
-    text: 'initial value';
+    text: 'initial value'
 };
 
 const testReducer = (state = initialState, action: UnknownAction) => {
