@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'gatsby';
-import ToolBar from '../components/tool-bar';
+import ToolBar from '../components/tool-bar/tool-bar';
 
 const Test = ({ text }) => (
     <div>
