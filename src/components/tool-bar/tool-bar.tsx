@@ -10,7 +10,7 @@ interface Draggable {
 }
 
 const mapStateToProps = state => {
-    return state;
+    return { ...state.toolbar };
 };
 
 const mapDispatchToProps = (dispatch: Function) => {
@@ -23,27 +23,27 @@ const mapDispatchToProps = (dispatch: Function) => {
             };
 
             dispatch({type: 'ADD_NEW_TOOL_ITEM', payload: { newToolItem }});
+        },
+        reposition: (event: MouseEvent, diffPos: Draggable) => {
+            const position = {
+                x: event.screenX - diffPos.x,
+                y: event.screenY - diffPos.y
+            }
+
+            dispatch({ type: 'UPDATE_BAR_POSITION', payload: { position }})
         }
     }
 };
 
-const ToolBar = ({ newToolElm }) => {
+const ToolBar = ({ newToolElm, reposition, barPosition }) => {
     const barWidth: number = 100;
     const windowWidth: number = window.innerWidth;
-    const [toolbarPosition, setToolbarPosition] = React.useState<Draggable>({x: windowWidth - (barWidth + 40), y: 40});
     const [diffPos, setDiffPos] = React.useState<Draggable>({ x: 0, y: 0 });
 
     const dragStart = (event: MouseEvent): void => {
         const boundingRect = event.currentTarget.getBoundingClientRect();
         
         setDiffPos({x: event.screenX - boundingRect.left, y: event.screenY - boundingRect.top })
-    };
-
-    const drag = (event: MouseEvent): void => {
-        setToolbarPosition({
-            x: event.screenX - diffPos.x,
-            y: event.screenY - diffPos.y
-        });
     };
 
     const exportFile = () => {
@@ -54,17 +54,13 @@ const ToolBar = ({ newToolElm }) => {
         console.log('This will refresh the file');
     };
 
-    const addNewElement = (action: string) => {
-        console.log('Adding new element ' + action );
-    };
-
     return (
         <div 
             className="bg-gray-600 toolbar" 
-            style={{top: toolbarPosition.y + 'px', left: toolbarPosition.x + 'px', width: barWidth}}
+            style={{top: barPosition.y + 'px', left: barPosition.x + 'px', width: barWidth}}
             onDragStart={dragStart}
-            onDrag={drag}
-            onDragEnd={drag}
+            onDrag={e => reposition(e, diffPos)}
+            onDragEnd={e => reposition(e, diffPos)}
             draggable={true}
         >
             <div className="header bg-gray-800 rounded w-full h-10 flex flex-row-reverse cursor-pointer">
