@@ -3,11 +3,7 @@ import {XMarkIcon, DocumentArrowUpIcon, ArrowPathIcon} from '@heroicons/react/24
 import ToolCollection from './tools';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-
-interface Draggable {
-    x: number,
-    y: number
-}
+import Draggable from '../interfaces'
 
 const mapStateToProps = state => {
     return { ...state.toolbar };

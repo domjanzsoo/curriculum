@@ -1,12 +1,10 @@
 import { UnknownAction } from 'redux';
+import Draggable from '../../components/interfaces/draggable';
 
 
 interface ToolsState {
     tools: { id: string, component: object} [],
-    barPosition: {
-        x: number,
-        y: number
-    }
+    barPosition: Draggable
 }
 
 const initialState = <ToolsState> {
