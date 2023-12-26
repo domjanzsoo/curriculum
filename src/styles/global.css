@@ -85,3 +85,38 @@
     --onPrimaryBg: var(--color-neutral-50);
     --primary: var(--color-primary-400);
 }
+
+
+.toolbar {
+    height: auto;
+    position: absolute;
+    user-select: none !important;
+    border-radius: 10px;
+    -webkit-box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
+    -moz-box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
+    box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
+}
+
+.toolbar .header {
+    height: 20%;
+}
+
+.toolbar .body {
+    margin: 5px auto;
+    text-align: center;
+    height: 68%;
+}
+
+.toolbar .body .tool-grid {
+    width: 60px;
+    height: 70px;
+}
+
+.toolbar .body .layers {
+    width: 100px;
+    height: 100%;
+}
+
+.toolbar .footer {
+    height: 12%;
+}

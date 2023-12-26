@@ -10,6 +10,7 @@ const Test = ({ test, textUpdate }) => (
 );
 
 const mapStateToProps = state => {
+    console.log(state);
     return state;
 };
 

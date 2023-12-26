@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'gatsby';
+import ToolBar from '../components/tool-bar/tool-bar';
 
 const Test = ({ text }) => (
     <div>
@@ -20,6 +21,8 @@ const CVEditorPage = () => {
             <h2>Editor page</h2>
                 <ConnectedTest />
                 <Link to="/details">Details</Link>
+                <span className="archive-box-x-mark"></span>
+                <ToolBar/>
         </main>
     )
 };
