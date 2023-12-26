@@ -1,7 +1,6 @@
-import { UnknownAction } from 'redux';
-import { Resizable, Stage, Page } from '../../components/interfaces';
+import { Resizable, Stage, Page, CommonAction } from '../../components/interfaces';
 
-const firstPage = <Page> {
+const singlePage = <Page> {
     contentElms: []
 }
 
@@ -9,14 +8,14 @@ const initialState = <Stage & Resizable> {
     with: 400,
     height: 400,
     currentlyEditedPage: 0,
-    pages: [firstPage]   
+    pages: [singlePage]   
 }
 
 
-const StageReducer = (state = initialState, action: UnknownAction) => {
+const StageReducer = (state = initialState, action: CommonAction) => {
     switch (action.type) {
         case 'ADD_NEW_PAGE':
-            const pages = state.pages.concat([action.payload.page]);
+            const pages = state.pages.concat([singlePage]);
 
             return Object.assign({}, state, { pages });
         default:

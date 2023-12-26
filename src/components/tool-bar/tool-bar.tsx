@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {XMarkIcon, DocumentArrowUpIcon, ArrowPathIcon} from '@heroicons/react/24/solid';
+import { XMarkIcon, DocumentArrowUpIcon, ArrowPathIcon, SquaresPlusIcon } from '@heroicons/react/24/solid';
 import ToolCollection from './tools';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,11 +27,14 @@ const mapDispatchToProps = (dispatch: Function) => {
             }
 
             dispatch({ type: 'UPDATE_BAR_POSITION', payload: { position }})
+        },
+        addPage: () => {
+            dispatch({ type: 'ADD_NEW_PAGE' })
         }
     }
 };
 
-const ToolBar = ({ newToolElm, reposition, barPosition, tools }) => {
+const ToolBar = ({ newToolElm, reposition, barPosition, tools, addPage }) => {
     const barWidth: number = 200;
     const windowWidth: number = typeof window !== 'undefined' ? window.innerWidth : 800;
     const [diffPos, setDiffPos] = React.useState<Draggable>({ x: 0, y: 0 });
@@ -91,6 +94,7 @@ const ToolBar = ({ newToolElm, reposition, barPosition, tools }) => {
             <div className="footer bg-gray-800 rounded w-full flex flex-row-reverse pb-1">
                     <ArrowPathIcon className="text-white w-4 h-4 mt-1 ml-1 mr-2 cursor-pointer" onClick={refresh} />
                     <DocumentArrowUpIcon className="text-white w-4 h-4 mt-1 ml-1 cursor-pointer" onClick={exportFile} />
+                    <SquaresPlusIcon className="text-white w-4 h-4 mt-1 ml-1 cursor-pointer" onClick={addPage} />
             </div>
         </div>
     )

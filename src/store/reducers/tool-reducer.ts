@@ -1,5 +1,4 @@
-import { UnknownAction } from 'redux';
-import { Draggable, ToolState } from '../../components/interfaces';
+import { Draggable, ToolState, CommonAction } from '../../components/interfaces';
 
 const initialState = <ToolState & Draggable> {
     tools: [],
@@ -9,7 +8,7 @@ const initialState = <ToolState & Draggable> {
     }
 };
 
-const ToolbarReducer = (state = initialState, action: UnknownAction) => {
+const ToolbarReducer = (state = initialState, action: CommonAction) => {
     switch (action.type) {
         case 'UPDATE_BAR_POSITION':
             return Object.assign({}, state, {

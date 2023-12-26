@@ -3,6 +3,7 @@ import  { Resizable } from './resizable';
 import { Stage } from './stage';
 import { Page } from './page';
 import { ToolState }  from './states/tool-state';
+import { CommonAction }  from './states/tool-state';
 
 
 export default {
@@ -10,5 +11,6 @@ export default {
     Resizable,
     Stage,
     ToolState,
-    Page
+    Page,
+    CommonAction
 }
