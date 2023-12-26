@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 const ToolBar = ({ newToolElm, reposition, barPosition, tools }) => {
     const barWidth: number = 200;
-    const windowWidth: number = window.innerWidth;
+    const windowWidth: number = typeof window !== 'undefined' ? window.innerWidth : 800;
     const [diffPos, setDiffPos] = React.useState<Draggable>({ x: 0, y: 0 });
 
     const dragStart = (event: MouseEvent): void => {
