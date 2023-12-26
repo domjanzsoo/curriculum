@@ -1,10 +1,12 @@
 import {combineReducers } from 'redux';
 import testReducer from './test-reducer';
 import ToolbarReducer from './tool-reducer';
+import StageReducer from './stage';
 
 const rootReducer = combineReducers({
     test: testReducer,
-    toolbar: ToolbarReducer
+    toolbar: ToolbarReducer,
+    stage: StageReducer
 });
 
 export default rootReducer; 

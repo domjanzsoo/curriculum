@@ -1,4 +1,4 @@
-interface Draggable {
+interface Resizable {
     x: number,
     y: number
 }
