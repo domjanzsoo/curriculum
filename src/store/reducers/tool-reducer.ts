@@ -4,7 +4,7 @@ import Draggable from '../../components/interfaces/draggable';
 
 interface ToolsState {
     tools: { id: string, component: object} [],
-    barPosition: Draggable
+    barPosition: Draggable,
 }
 
 const initialState = <ToolsState> {
@@ -18,22 +18,15 @@ const initialState = <ToolsState> {
 const ToolbarReducer = (state = initialState, action: UnknownAction) => {
     switch (action.type) {
         case 'UPDATE_BAR_POSITION':
-            console.log('Update bar position');
-
             return Object.assign({}, state, {
                 barPosition: action.payload.position
             });
-            break;
         case 'ADD_NEW_TOOL_ITEM':
-            console.log('add new tool ixtem');
-            const tools = state.tools;
-
-            tools.push(action.payload.newToolItem);
+            const tools = state.tools.concat([action.payload.newToolItem]);
 
             return Object.assign({}, state, {
                 tools: tools
             });
-            break;
         default:
             return state;
         
