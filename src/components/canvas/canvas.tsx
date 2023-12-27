@@ -9,13 +9,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch: Function) => {
         return {
-            addPage: (page: object) => {
-                dispatch('ADD_NEW_PAGE', {payload: { page }})
+            selectPage: (page: number) => {
+                dispatch({ type: 'SELECT_PAGE', payload: { page }})
             }
         };
 }
 
-const CanvasPage = ({ pages, addPage }) => {
+const CanvasPage = ({ pages, selectPage, currentlyEditedPage }) => {
     const width: number = 2480;
     const height: number = 3508;
     const stage: Resizable & Stage = {
@@ -28,8 +28,15 @@ const CanvasPage = ({ pages, addPage }) => {
         <div>
             {
                 pages.map((page, index) => {
+                    const className = (currentlyEditedPage === index) ? 'border-red-300 ' : 'border-gray-300 '
+
                     return(
-                        <div style={{width: stage.width, height: stage.height}} className="background-white border border-2 ml-6 mt-8" key={ index }>
+                        <div 
+                            style={{width: stage.width, height: stage.height}}
+                             className={ className  + 'bg-white border border-2 ml-6 mt-8'} 
+                             key={ index }
+                             onClick={ () => selectPage(index) }
+                        >
                             Canvas page {index + 1}
                         </div>
                     )

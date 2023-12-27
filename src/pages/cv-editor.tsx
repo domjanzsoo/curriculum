@@ -12,13 +12,13 @@ const mapStateToProps = state => {
 
 const CVEditorPage = () => {
     return (
-        <main>
+        <main className="bg-indigo-50">
             <h2>
                 Editor page
                 <Link className="ml-3" to="/details">Details</Link>
             </h2>
                 <ToolBar/>
-                <CanvasPage />
+                <CanvasPage/>
                 
         </main>
     )

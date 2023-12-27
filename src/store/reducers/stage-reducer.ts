@@ -1,7 +1,7 @@
 import { Resizable, Stage, Page, CommonAction } from '../../components/interfaces';
 
 const singlePage = <Page> {
-    contentElms: []
+    contentElms: [],
 }
 
 const initialState = <Stage & Resizable> {
@@ -18,6 +18,10 @@ const StageReducer = (state = initialState, action: CommonAction) => {
             const pages = state.pages.concat([singlePage]);
 
             return Object.assign({}, state, { pages });
+        case 'SELECT_PAGE':
+            return Object.assign({}, state, {
+                currentlyEditedPage: action.payload.page
+            });
         default:
             return state;
     }
