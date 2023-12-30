@@ -1,5 +1,5 @@
-import * as React from "react"
-import type { HeadFC, PageProps } from "gatsby"
+import * as React from "react";
+import type { HeadFC, PageProps } from "gatsby";
 
 
 const IndexPage: React.FC<PageProps> = () => {
@@ -27,8 +27,8 @@ const IndexPage: React.FC<PageProps> = () => {
       </div>
     </main>
   )
-}
+};
 
-export default IndexPage
+export default IndexPage;
 
-export const Head: HeadFC = () => <title>Curriculum</title>
+export const Head: HeadFC = () => <title>Curriculum</title>;

@@ -6,43 +6,36 @@ import {
     ClipboardIcon,
     CodeBracketSquareIcon
 } from "@heroicons/react/24/solid"
-
-
-
-interface ToolItem {
-    title: string,
-    component: object,
-    icon: object
-}
+import { ToolItem } from '../interfaces/tool';
 
 const ToolCollection: ToolItem[] = [
     {
-        title: 'Text',
+        type: 'text',
         component: {},
         icon: PencilSquareIcon
     },
     {
-        title: 'Image',
+        type: 'image',
         component: {},
         icon: PhotoIcon
     },
     {
-        title: 'Shapes',
+        type: 'shape',
         component: {},
         icon: Square2StackIcon
     },
     {
-        title: 'List',
+        type: 'list',
         component: {},
         icon: ListBulletIcon
     },
     {
-        title: 'Code',
+        type: 'code',
         component: {},
         icon: CodeBracketSquareIcon
     },
     {
-        title: 'Skill',
+        type: 'skill',
         component: {},
         icon: ClipboardIcon
     }
