@@ -1,23 +1,17 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'gatsby';
-import ToolBar from '../components/tool-bar/tool-bar';
+import ConnectedToolbar  from '../components/tool-bar/tool-bar';
 import CanvasPage from '../components/canvas/canvas';
 
 
-const mapStateToProps = state => {
-    return state.test;
-};
-  
-
-const CVEditorPage = () => {
+const CVEditorPage = (): JSX.Element => {
     return (
         <main className="bg-indigo-50">
             <h2>
                 Editor page
                 <Link className="ml-3" to="/details">Details</Link>
             </h2>
-                <ToolBar/>
+                <ConnectedToolbar />
                 <CanvasPage/>
                 
         </main>

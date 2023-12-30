@@ -1,4 +1,5 @@
-interface Resizable {
-    x: number,
-    y: number
+export interface Resizable {
+    width: number,
+    height: number
 }
+

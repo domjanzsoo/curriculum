@@ -1,16 +1,19 @@
-import { Draggable } from './draggable';
-import  { Resizable } from './resizable';
-import { Stage } from './stage';
-import { Page } from './page';
-import { ToolState }  from './states/tool-state';
-import { CommonAction }  from './states/tool-state';
+export * from './draggable';
+export * from './resizable';
+export * from './stageable';
+export * from './page';
+export * from './states/tool-state';
+export * from './states/main-state';
+export * from './states/action';
+export * from './tool';
 
-
-export default {
-    Draggable,
-    Resizable,
-    Stage,
-    ToolState,
-    Page,
-    CommonAction
-}
+// export const Interfaces = {
+//     Draggable,
+//     Resizable,
+//     Stageable,
+//     ToolState,
+//     MainState,
+//     Page,
+//     CommonAction,
+//     ToolItem
+// }

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Resizable, Stage } from '../interfaces';
+import { MainState, Stageable, Page } from '../interfaces';
+import {  Stage, Layer } from 'react-konva';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: MainState) => {
     return { ...state.stage };
 };
 
@@ -15,10 +16,10 @@ const mapDispatchToProps = (dispatch: Function) => {
         };
 }
 
-const CanvasPage = ({ pages, selectPage, currentlyEditedPage }) => {
+const CanvasPage = ({ pages, selectPage, currentlyEditedPage }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string }): JSX.Element => {
     const width: number = 2480;
     const height: number = 3508;
-    const stage: Resizable & Stage = {
+    const stage: Stageable = {
         width: width / 3,
         height: height / 3,
         pages: []
@@ -28,7 +29,7 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }) => {
         <div>
             {
                 pages.map((page, index) => {
-                    const className = (currentlyEditedPage === index) ? 'border-red-300 ' : 'border-gray-300 '
+                    const className = (currentlyEditedPage === page.id) ? 'border-red-300 ' : 'border-gray-300 '
 
                     return(
                         <div 
@@ -37,7 +38,13 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }) => {
                              key={ index }
                              onClick={ () => selectPage(index) }
                         >
-                            Canvas page {index + 1}
+                            <Stage width={ stage.width } height={ stage.height }>
+                                {
+                                    page.contentElms.map((elm, index) => {
+                                        return <Layer key={ index }>elm.name</Layer>
+                                    })
+                                }
+                            </Stage>
                         </div>
                     )
                 })
@@ -46,6 +53,6 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }) => {
     )
 };
 
-const ConnectedCanvasPage = connect(mapStateToProps, mapDispatchToProps)(CanvasPage)
+const ConnectedCanvasPage = connect(mapStateToProps, mapDispatchToProps)(CanvasPage as any)
 
 export default ConnectedCanvasPage;

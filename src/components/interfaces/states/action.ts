@@ -1,4 +1,4 @@
-interface CommonAction {
+export interface CommonAction {
     type: string,
-    payload?: object
+    payload?: {[key: string]: any}
 }

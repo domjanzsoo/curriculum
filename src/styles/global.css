@@ -95,6 +95,7 @@
     -webkit-box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
     -moz-box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
     box-shadow: 6px 10px 11px -8px rgba(0,0,0,0.58);
+    z-index: 99999;
 }
 
 .toolbar .header {
