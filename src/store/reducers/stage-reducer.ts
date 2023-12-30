@@ -17,7 +17,7 @@ const initialState: Stageable = {
 const StageReducer = (state = initialState, action: CommonAction) => {
     switch (action.type) {
         case 'ADD_NEW_PAGE':
-            const page = singlePage;
+            const page = { ...singlePage };
             page.id = action?.payload?.id;
 
             const pages = state.pages.concat([page]);

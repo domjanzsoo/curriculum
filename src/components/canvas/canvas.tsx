@@ -36,7 +36,7 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }: { pages: Array<P
                             style={{width: stage.width, height: stage.height}}
                              className={ className  + 'bg-white border border-2 ml-6 mt-8'} 
                              key={ index }
-                             onClick={ () => selectPage(index) }
+                             onClick={ () => selectPage(page.id) }
                         >
                             <Stage width={ stage.width } height={ stage.height }>
                                 {
