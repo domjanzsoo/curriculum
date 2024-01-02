@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { MainState, Stageable, Page } from '../interfaces';
 import {  Stage, Layer } from 'react-konva';
+import CanvasElement from './canvas-elm';
 
 const mapStateToProps = (state: MainState) => {
     return { ...state.stage };
@@ -41,7 +42,11 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }: { pages: Array<P
                             <Stage width={ stage.width } height={ stage.height }>
                                 {
                                     page.contentElms.map((elm, index) => {
-                                        return <Layer key={ index }>elm.name</Layer>
+                                        return (
+                                            <Layer key={ index }>
+                                                <CanvasElement toolItem={elm} />
+                                            </Layer>
+                                        )
                                     })
                                 }
                             </Stage>

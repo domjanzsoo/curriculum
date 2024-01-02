@@ -1,6 +1,8 @@
+import { Page } from '../interfaces/page';
+
 export interface Stageable {
     width: number,
     height: number,
-    pages: Array<object>,
+    pages: Array<Page>,
     currentlyEditedPage?: string
 }

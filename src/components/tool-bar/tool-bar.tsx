@@ -31,6 +31,7 @@ const mapDispatchToProps = (dispatch: Function) => {
             };
 
             dispatch({type: 'ADD_NEW_TOOL_ITEM', payload: { newToolItem }});
+            dispatch({type: 'ADD_TOOL_ELEMENT_TO_PAGE', payload: { elm: newToolItem }});
         },
         reposition: (event: MouseEvent, diffPos: Draggable) => {
             const position = {

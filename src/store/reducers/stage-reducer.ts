@@ -19,6 +19,7 @@ const StageReducer = (state = initialState, action: CommonAction) => {
         case 'ADD_NEW_PAGE':
             const page = { ...singlePage };
             page.id = action?.payload?.id;
+            page.contentElms = [];
 
             const pages = state.pages.concat([page]);
 
@@ -26,6 +27,16 @@ const StageReducer = (state = initialState, action: CommonAction) => {
         case 'SELECT_PAGE':
             return Object.assign({}, state, {
                 currentlyEditedPage: action?.payload?.page
+            });
+        case 'ADD_TOOL_ELEMENT_TO_PAGE':
+            return Object.assign({}, state, {
+                pages: state.pages.map(page => {
+                    if (page.id === state.currentlyEditedPage) {
+                        page.contentElms = page.contentElms.concat([action.payload?.elm])
+                    }
+
+                    return page;
+                })
             });
         default:
             return state;
