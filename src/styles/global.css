@@ -118,6 +118,22 @@
     height: 100%;
 }
 
+.toolbar .body .editor-panel {
+    width: 250px;
+    min-height: 120px;
+    padding: 10px;
+    left: -255px;
+    top: 30px;
+    border-radius: 8px 0 0 8px;
+}
+
+.toolbar .body .editor-panel .bridge {
+    top: 0px;
+    right: -5px;
+    width: 5px;
+    height: 30px;
+}
+
 .toolbar .footer {
     height: 12%;
 }

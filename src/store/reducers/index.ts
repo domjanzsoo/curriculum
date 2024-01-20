@@ -7,4 +7,4 @@ const rootReducer = combineReducers({
     stage: StageReducer
 });
 
-export default rootReducer; 
+export default rootReducer;

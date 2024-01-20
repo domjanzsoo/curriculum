@@ -13,7 +13,6 @@ const CVEditorPage = (): JSX.Element => {
             </h2>
                 <ConnectedToolbar />
                 <CanvasPage/>
-                
         </main>
     )
 };

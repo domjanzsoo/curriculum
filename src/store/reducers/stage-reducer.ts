@@ -10,7 +10,7 @@ const initialState: Stageable = {
     width: 400,
     height: 400,
     currentlyEditedPage: singlePage.id,
-    pages: [singlePage]   
+    pages: [singlePage]
 }
 
 
@@ -36,7 +36,8 @@ const StageReducer = (state = initialState, action: CommonAction) => {
                     }
 
                     return page;
-                })
+                }),
+                currentlySelectedElement: action.payload?.elm.id
             });
         default:
             return state;

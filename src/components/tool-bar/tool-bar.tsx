@@ -4,6 +4,7 @@ import ToolCollection from './tools';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Draggable, MainState, ToolItem } from '../interfaces';
+import TextEditor from './tool-editors/text-editor';
 
 interface ComponentProps {
     toolbar: Object,
@@ -23,7 +24,7 @@ const mapDispatchToProps = (dispatch: Function) => {
     return {
         newToolElm: (elm: ToolItem): void => {
             const newToolItem = {
-                id: connect,
+                id: uuidv4(),
                component: {
                     type: elm.type
                 },
@@ -54,7 +55,7 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
 
     const dragStart = (event: React.MouseEvent): void => {
         const boundingRect = event.currentTarget.getBoundingClientRect();
-        
+
         setDiffPos({x: event.screenX - boundingRect.left, y: event.screenY - boundingRect.top })
     };
 
@@ -67,8 +68,8 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
     };
 
     return (
-        <div 
-            className="bg-gray-600 toolbar" 
+        <div
+            className="bg-gray-600 toolbar"
             style={{top: barPosition.y + 'px', left: barPosition.x + 'px', width: barWidth}}
             onDragStart={dragStart}
             onDrag={e => reposition(e, diffPos)}
@@ -89,20 +90,26 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
                                 </div>
                             )
                         })
-                    }       
-                </div>
-                <ul className="layers divide-y divide-white col-span-2 text-white text-left">
-                    <li className="border-l-2 pl-2 border-white">Layers</li>
-                    {
-                        tools.map((tool, index) => {
-                            return (
-                                <li className="border-l-2 pl-4 border-white" key={ index }>
-                                    { tool.type }
-                                </li>
-                            )
-                        })
                     }
-                </ul>
+                </div>
+                <div>
+                    <ul className="layers divide-y divide-white col-span-2 text-white text-left">
+                        <li className="border-l-2 pl-2 border-white">Layers</li>
+                        {
+                            tools.map((tool, index) => {
+                                return (
+                                    <li className="border-l-2 pl-4 border-white" key={ index }>
+                                        { tool.type }
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+               <div className="editor-panel bg-gray-600 absolute">
+                    <div className="bridge bg-gray-600 absolute"></div>
+                    <TextEditor />
+               </div>
             </div>
             <div className="footer bg-gray-800 rounded w-full flex flex-row-reverse pb-1">
                     <ArrowPathIcon className="text-white w-4 h-4 mt-1 ml-1 mr-2 cursor-pointer" onClick={refresh} />

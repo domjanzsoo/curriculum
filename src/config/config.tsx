@@ -1,0 +1,7 @@
+export const TEXT_ELEMENT_CONFIG = {
+    MIN_WIDTH_TEXT: 120,
+    PADDING_TEXT: 5,
+    DEFAULT_SCALE_TEXT: 1,
+    DEFAULT_FONT_SIZE: 20,
+    DEFAULT_TEXT: 'New Text'
+}

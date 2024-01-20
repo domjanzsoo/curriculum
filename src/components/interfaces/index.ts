@@ -6,14 +6,4 @@ export * from './states/tool-state';
 export * from './states/main-state';
 export * from './states/action';
 export * from './tool';
-
-// export const Interfaces = {
-//     Draggable,
-//     Resizable,
-//     Stageable,
-//     ToolState,
-//     MainState,
-//     Page,
-//     CommonAction,
-//     ToolItem
-// }
+export * from './text-elm';

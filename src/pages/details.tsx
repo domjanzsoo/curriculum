@@ -10,13 +10,12 @@ const Test = () => (
 );
 
 const mapStateToProps = (state: MainState) => {
-    console.log(state);
     return state;
 };
 
 const mapDispatchToProps = (dispatch: Function) => {
     return { };
-};  
+};
 
 const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test as any);
 

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { MainState, Stageable, Page } from '../interfaces';
+import { MainState, Stageable, Page, ToolItem } from '../interfaces';
 import {  Stage, Layer } from 'react-konva';
+import Konva from 'konva';
 import CanvasElement from './canvas-elm';
 
 const mapStateToProps = (state: MainState) => {
@@ -12,12 +13,17 @@ const mapStateToProps = (state: MainState) => {
 const mapDispatchToProps = (dispatch: Function) => {
         return {
             selectPage: (page: number) => {
-                dispatch({ type: 'SELECT_PAGE', payload: { page }})
+                dispatch({ type: 'SELECT_PAGE', payload: { page }});
+            },
+            updateElements: () => {
+                console.log('update');
             }
         };
 }
 
-const CanvasPage = ({ pages, selectPage, currentlyEditedPage }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string }): JSX.Element => {
+const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string, updateElements: Function }): JSX.Element => {
+    const [selectedItem, setSelectedItem] = React.useState<string | null>(null)
+
     const width: number = 2480;
     const height: number = 3508;
     const stage: Stageable = {
@@ -26,25 +32,34 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage }: { pages: Array<P
         pages: []
     };
 
+    const pageClickHandler = (e: Konva.KonvaEventObject<MouseEvent>, pageId: string) => {
+        const clickedOnEmpty = e.target === e.target?.getStage();
+
+        if (clickedOnEmpty) {
+            setSelectedItem(null);
+        }
+
+        selectPage(pageId);
+    }
+
     return (
         <div>
             {
-                pages.map((page, index) => {
+                pages.map(page => {
                     const className = (currentlyEditedPage === page.id) ? 'border-red-300 ' : 'border-gray-300 '
 
                     return(
-                        <div 
+                        <div
+                            key={ page.id }
                             style={{width: stage.width, height: stage.height}}
-                             className={ className  + 'bg-white border border-2 ml-6 mt-8'} 
-                             key={ index }
-                             onClick={ () => selectPage(page.id) }
+                            className={ className  + 'bg-white border border-2 ml-6 mt-8'}
                         >
-                            <Stage width={ stage.width } height={ stage.height }>
+                            <Stage key={ page.id } width={ stage.width } height={ stage.height } onMouseDown={ event => pageClickHandler(event, page.id) }>
                                 {
                                     page.contentElms.map((elm, index) => {
                                         return (
                                             <Layer key={ index }>
-                                                <CanvasElement toolItem={elm} />
+                                                <CanvasElement key={ elm.id } toolItem={ elm } isSelected={elm.id === selectedItem} onSelect={() => setSelectedItem(elm.id)} />
                                             </Layer>
                                         )
                                     })

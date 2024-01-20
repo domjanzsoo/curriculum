@@ -22,8 +22,7 @@ const ToolbarReducer = (state = initialState, action: CommonAction) => {
             });
         default:
             return state;
-        
-    } 
+    }
 };
 
 export default ToolbarReducer;
