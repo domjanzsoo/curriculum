@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { MainState, Stageable, Page, ToolItem } from '../interfaces';
+import { MainState, Stageable, Page, ToolItem, Resizable, Draggable, TextElm } from '../interfaces';
 import {  Stage, Layer } from 'react-konva';
 import Konva from 'konva';
 import CanvasElement from './canvas-elm';
@@ -8,6 +8,67 @@ import CanvasElement from './canvas-elm';
 const mapStateToProps = (state: MainState) => {
     return { ...state.stage };
 };
+
+interface TextAreaProps {
+    handleTextChange: Function,
+    textElm: TextElm & Resizable
+    stage: Konva.Stage,
+    cancelTextArea: Function
+}
+
+const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, cancelTextArea}) => {
+    console.log(textElm);
+    const areaRef = React.useRef<any>();
+    const [textValue, setTextValue] = React.useState<string>(textElm.text);
+
+    const style: React.CSSProperties = {
+        position: 'absolute',
+        left: stage.container().offsetLeft + textElm.node.absolutePosition().x + 'px',
+        top: stage.container().offsetTop + textElm.node.absolutePosition().y + 'px',
+        width: textElm.width ?? 0 + textElm.node.padding() * 2 + 'px',
+        height: textElm.height ?? 0 - textElm.node.padding() * 2 + 5  + 'px',
+        lineHeight: textElm.node.lineHeight(),
+        color: textElm.node.fill(),
+        border: 'none',
+        fontSize: textElm.node.fontSize(),
+        fontFamily: textElm.node.fontFamily(),
+        transformOrigin: 'left top',
+        padding: '0px',
+        margin: '0px',
+        overflow: 'hidden',
+        outline: 'none',
+        resize: 'none',
+        zIndex: 9999
+    };
+
+    React.useEffect(() => {
+        if(areaRef.current) areaRef.current.focus();
+    });
+
+    const textTypeEventHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        const target = event.target as HTMLTextAreaElement;
+        console.log('text being types ' + target.value );
+
+        if (event.key === 'Enter' && !event.shiftKey) {
+            handleTextChange(target.value);
+            cancelTextArea();
+        }
+
+        // setTextValue(target.value);
+    };
+
+    return (
+        <React.Fragment>
+            <textarea
+                ref={ areaRef }
+                style={ style }
+                value={ textValue }
+                onKeyDown={ textTypeEventHandler }
+                onChange={(e) => setTextValue(e.target.value)}
+            />
+        </React.Fragment>
+    )
+}
 
 
 const mapDispatchToProps = (dispatch: Function) => {
@@ -22,7 +83,9 @@ const mapDispatchToProps = (dispatch: Function) => {
 }
 
 const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string, updateElements: Function }): JSX.Element => {
-    const [selectedItem, setSelectedItem] = React.useState<string | null>(null)
+    const [selectedItem, setSelectedItem] = React.useState<ToolItem & Resizable & Draggable & TextElm | null>(null)
+    const [displayTextArea, setDisplayTextArea] = React.useState<boolean>(false);
+    const stageRef = React.useRef<any>();
 
     const width: number = 2480;
     const height: number = 3508;
@@ -37,10 +100,18 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: 
 
         if (clickedOnEmpty) {
             setSelectedItem(null);
+            setDisplayTextArea(false);
         }
 
         selectPage(pageId);
-    }
+    };
+
+    const handleTextChange = (text: string) => {
+        if (selectedItem) {
+            selectedItem.text = text;
+            selectedItem.node.text(text);
+        }
+    };
 
     return (
         <div>
@@ -54,12 +125,25 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: 
                             style={{width: stage.width, height: stage.height}}
                             className={ className  + 'bg-white border border-2 ml-6 mt-8'}
                         >
-                            <Stage key={ page.id } width={ stage.width } height={ stage.height } onMouseDown={ event => pageClickHandler(event, page.id) }>
+                            <Stage
+                                ref={ stageRef }
+                                key={ page.id }
+                                width={ stage.width }
+                                height={ stage.height }
+                                onMouseDown={ event => pageClickHandler(event, page.id) }
+                            >
                                 {
                                     page.contentElms.map((elm, index) => {
                                         return (
                                             <Layer key={ index }>
-                                                <CanvasElement key={ elm.id } toolItem={ elm } isSelected={elm.id === selectedItem} onSelect={() => setSelectedItem(elm.id)} />
+                                                <CanvasElement
+                                                    key={ elm.id }
+                                                    toolItem={ elm }
+                                                    isSelected={elm.id === selectedItem?.id}
+                                                    onSelect={() => setSelectedItem(elm)}
+                                                    dblClickHandling={() => setDisplayTextArea(true)}
+                                                    textAreaDisplayed={ displayTextArea }
+                                                />
                                             </Layer>
                                         )
                                     })
@@ -69,6 +153,14 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: 
                     )
                 })
             }
+            {(displayTextArea && selectedItem?.type === 'text') && (
+                        <TextArea
+                            stage={ stageRef.current }
+                            textElm={ selectedItem }
+                            handleTextChange={handleTextChange}
+                            cancelTextArea={() => setDisplayTextArea(false)}
+                        />
+                    )}
         </div>
     )
 };

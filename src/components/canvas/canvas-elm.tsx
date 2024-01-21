@@ -6,10 +6,12 @@ import { TEXT_ELEMENT_CONFIG } from '../../config/config';
 interface ComponentProps {
     toolItem: ToolItem & Draggable & Resizable & TextElm,
     isSelected: boolean,
-    onSelect: Function
+    onSelect: Function,
+    dblClickHandling: Function,
+    textAreaDisplayed: boolean
 }
 
-const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelect }): JSX.Element => {
+const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelect, dblClickHandling, textAreaDisplayed }): JSX.Element => {
     const trRef = React.useRef<any>();
     const elmRef = React.useRef<any>(null);
     const [isDragging, setIsDragging] = React.useState<boolean>(false);
@@ -21,46 +23,66 @@ const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelec
         }
     },[isSelected]);
 
+    const dblClick = () => {
+        toolItem.node = elmRef.current;
+
+        dblClickHandling();
+    };
+
     switch (toolItem.type) {
         case 'text':
             return (
                 <React.Fragment>
-                    <Text
-                        key={ toolItem.id }
-                        ref={ elmRef }
-                        text={ TEXT_ELEMENT_CONFIG.DEFAULT_TEXT }
-                        id={ toolItem.id }
-                        x={ toolItem.x }
-                        y={ toolItem.y }
-                        width={ toolItem.width ? toolItem.width : TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT }
-                        fontSize={ toolItem.fontSize ?? TEXT_ELEMENT_CONFIG.DEFAULT_FONT_SIZE }
-                        padding={ TEXT_ELEMENT_CONFIG.PADDING_TEXT }
-                        draggable
-                        scaleX={ TEXT_ELEMENT_CONFIG.DEFAULT_SCALE_TEXT }
-                        scaleY={ TEXT_ELEMENT_CONFIG.DEFAULT_SCALE_TEXT }
-                        rotation={ toolItem.rotation }
-                        fill={ isDragging ? 'green' : 'black' }
-                        onDragStart={() => setIsDragging(true) }
-                        onDragEnd={(e) => {
-                            setIsDragging(false);
-                            toolItem.x = e.target.x();
-                            toolItem.y = e.target.y();
-                        }}
-                        onClick={() => onSelect()}
-                        onTransform={() => {
-                            const width = Math.max(elmRef.current.width() * elmRef.current.scaleX(), TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT)
+                    {!textAreaDisplayed &&
+                        <Text
+                            key={ toolItem.id }
+                            ref={ elmRef }
+                            text={ toolItem.text ?? TEXT_ELEMENT_CONFIG.DEFAULT_TEXT }
+                            id={ toolItem.id }
+                            x={ toolItem.x }
+                            y={ toolItem.y }
+                            width={ toolItem.width ? toolItem.width : TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT }
+                            fontSize={ toolItem.fontSize ?? TEXT_ELEMENT_CONFIG.DEFAULT_FONT_SIZE }
+                            padding={ TEXT_ELEMENT_CONFIG.PADDING_TEXT }
+                            draggable
+                            scaleX={ TEXT_ELEMENT_CONFIG.DEFAULT_SCALE_TEXT }
+                            scaleY={ TEXT_ELEMENT_CONFIG.DEFAULT_SCALE_TEXT }
+                            rotation={ toolItem.rotation }
+                            fill={ isDragging ? 'green' : 'black' }
+                            onDragStart={() => setIsDragging(true) }
+                            onDragEnd={(e) => {
+                                setIsDragging(false);
+                                toolItem.x = e.target.x();
+                                toolItem.y = e.target.y();
+                            }}
+                            onClick={() => {
+                                const width = Math.max(elmRef.current.width() * elmRef.current.scaleX(), TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT)
 
-                            toolItem.width = width;
-                            toolItem.rotation = elmRef.current.rotation();
-                            toolItem.fontSize = elmRef.current.fontSize();
+                                toolItem.width = width;
+                                toolItem.rotation = elmRef.current.rotation();
+                                toolItem.fontSize = elmRef.current.fontSize();
+                                elmRef.current.setAttrs({
+                                    width: width,
+                                    scaleX: 1
+                                })
+                                onSelect();
+                            }}
+                            onDblClick={dblClick}
+                            onTransform={() => {
+                                const width = Math.max(elmRef.current.width() * elmRef.current.scaleX(), TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT)
 
-                            elmRef.current.setAttrs({
-                                width: width,
-                                scaleX: 1
-                            });
-                        }}
-                    />
-                    {isSelected && (
+                                toolItem.width = width;
+                                toolItem.rotation = elmRef.current.rotation();
+                                toolItem.fontSize = elmRef.current.fontSize();
+
+                                elmRef.current.setAttrs({
+                                    width: width,
+                                    scaleX: 1
+                                });
+                            }}
+                        />
+                    }
+                    {(isSelected && !textAreaDisplayed) && (
                         <Transformer
                             ref={ trRef }
                             flipEnabled={ true }

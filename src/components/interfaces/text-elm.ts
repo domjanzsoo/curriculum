@@ -1,3 +1,5 @@
+import Konva from 'konva';
+
 export interface TextElm {
     id: string,
     fontFamily: string,
@@ -7,5 +9,8 @@ export interface TextElm {
     text: string,
     verticalAlign?: string,
     color?: string,
-    rotation?: number
+    rotation?: number,
+    padding?: number,
+    lineHeight?: number,
+    node: Konva.Text
 }

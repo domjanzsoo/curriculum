@@ -3,8 +3,9 @@ import { XMarkIcon, DocumentArrowUpIcon, ArrowPathIcon, SquaresPlusIcon } from '
 import ToolCollection from './tools';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { Draggable, MainState, ToolItem } from '../interfaces';
+import { Draggable, MainState, ToolItem, TextElm } from '../interfaces';
 import TextEditor from './tool-editors/text-editor';
+import { TEXT_ELEMENT_CONFIG } from '../../config/config';
 
 interface ComponentProps {
     toolbar: Object,
@@ -22,13 +23,14 @@ const mapStateToProps = (state: MainState) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        newToolElm: (elm: ToolItem): void => {
-            const newToolItem = {
+        newToolElm: (elm: ToolItem & TextElm ): void => {
+            const newToolItem: any = {
                 id: uuidv4(),
-               component: {
+                component: {
                     type: elm.type
                 },
-                type: elm.type
+                type: elm.type,
+                text: (elm.type === 'text') ? TEXT_ELEMENT_CONFIG.DEFAULT_TEXT : null
             };
 
             dispatch({type: 'ADD_NEW_TOOL_ITEM', payload: { newToolItem }});
