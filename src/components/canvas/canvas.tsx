@@ -17,7 +17,6 @@ interface TextAreaProps {
 }
 
 const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, cancelTextArea}) => {
-    console.log(textElm);
     const areaRef = React.useRef<any>();
     const [textValue, setTextValue] = React.useState<string>(textElm.text);
 
@@ -47,14 +46,23 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
 
     const textTypeEventHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const target = event.target as HTMLTextAreaElement;
-        console.log('text being types ' + target.value );
 
         if (event.key === 'Enter' && !event.shiftKey) {
             handleTextChange(target.value);
             cancelTextArea();
         }
 
-        // setTextValue(target.value);
+        // New width of the textarea
+        const scale = textElm.node.getAbsoluteScale().x;
+        let newWidth = textElm.node.width() * scale;
+        if (!newWidth) {
+            newWidth = textElm.node.placeholder.length * textElm.node.fontSize()
+        }
+
+        areaRef.current.style.width = newWidth + 'px';
+
+        // New height of the textarea
+        areaRef.current.style.height = areaRef.current.scrollHeight + textElm.node.fontSize() + 'px';
     };
 
     return (
