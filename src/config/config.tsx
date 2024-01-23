@@ -3,5 +3,7 @@ export const TEXT_ELEMENT_CONFIG = {
     PADDING_TEXT: 5,
     DEFAULT_SCALE_TEXT: 1,
     DEFAULT_FONT_SIZE: 20,
-    DEFAULT_TEXT: 'New Text'
+    DEFAULT_TEXT: 'New Text',
+    DEFAULT_FONT_STYLE: 'normal',
+    DEFAULT_FONT_FAMILY: 'Arial'
 }

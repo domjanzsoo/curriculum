@@ -3,22 +3,22 @@ import { XMarkIcon, DocumentArrowUpIcon, ArrowPathIcon, SquaresPlusIcon } from '
 import ToolCollection from './tools';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { Draggable, MainState, ToolItem, TextElm } from '../interfaces';
+import { Draggable, MainState, ToolItem, TextElm, Stageable, ToolState } from '../interfaces';
 import TextEditor from './tool-editors/text-editor';
 import { TEXT_ELEMENT_CONFIG } from '../../config/config';
 
 interface ComponentProps {
-    toolbar: Object,
-    stage: Object
+    toolbar: ToolState,
+    stage: Stageable
     barPosition: Draggable,
-    tools: Array<ToolItem>,
     newToolElm: Function,
     addPage: Function,
-    reposition: Function
+    reposition: Function,
+    editToolElm: Function
 }
 
 const mapStateToProps = (state: MainState) => {
-    return { ...state.toolbar };
+    return { ...state };
 };
 
 const mapDispatchToProps = (dispatch: Function) => {
@@ -46,14 +46,26 @@ const mapDispatchToProps = (dispatch: Function) => {
         },
         addPage: () => {
             dispatch({ type: 'ADD_NEW_PAGE', payload: { id: uuidv4() } })
+        },
+        editToolElm: (elm: ToolItem | null) => {
+            if (elm)
+                dispatch({type: 'UPDATE_TOOL_ELEMENTS', payload: { elm }});
         }
     }
 };
 
-const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition, tools, addPage }): JSX.Element => {
+const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, toolbar, addPage, stage, editToolElm }): JSX.Element => {
     const barWidth: number = 200;
     const windowWidth: number = typeof window !== 'undefined' ? window.innerWidth : 800;
     const [diffPos, setDiffPos] = React.useState<Draggable>({ x: 0, y: 0 });
+    const [currentlySelectedElm, setCurrentlySelectedElm] = React.useState<ToolItem & TextElm | null>()
+
+    React.useEffect(() => {
+        const editedPage = stage.pages.find(page => page.id === stage?.currentlyEditedPage);
+        const currentlySelectedElement = editedPage ? editedPage.contentElms.find(elm => elm.id === stage?.currentlySelectedElement) : null;
+
+        setCurrentlySelectedElm(currentlySelectedElement);
+    }, [stage]);
 
     const dragStart = (event: React.MouseEvent): void => {
         const boundingRect = event.currentTarget.getBoundingClientRect();
@@ -69,14 +81,23 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
         console.log('This will refresh the file');
     };
 
+    const editElm = (property: string, value: string): void => {
+        const editedElm = currentlySelectedElm;
+        if (editedElm) {
+            editedElm[property] = value;
+        }
+
+        editToolElm(editedElm);
+    };
+
     return (
         <div
             className="bg-gray-600 toolbar"
-            style={{top: barPosition.y + 'px', left: barPosition.x + 'px', width: barWidth}}
-            onDragStart={dragStart}
+            style={{top: toolbar.barPosition.y + 'px', left: toolbar.barPosition.x + 'px', width: barWidth}}
+            onDragStart={ dragStart }
             onDrag={e => reposition(e, diffPos)}
             onDragEnd={e => reposition(e, diffPos)}
-            draggable={true}
+            draggable={ true }
         >
             <div className="header bg-gray-800 rounded w-full h-10 flex flex-row-reverse cursor-pointer">
                 <XMarkIcon className="h-5 w-5 text-white mr-3 mt-2 mb-1" />
@@ -98,7 +119,7 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
                     <ul className="layers divide-y divide-white col-span-2 text-white text-left">
                         <li className="border-l-2 pl-2 border-white">Layers</li>
                         {
-                            tools.map((tool, index) => {
+                            toolbar.tools.map((tool, index) => {
                                 return (
                                     <li className="border-l-2 pl-4 border-white" key={ index }>
                                         { tool.type }
@@ -110,7 +131,7 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, barPosition
                 </div>
                <div className="editor-panel bg-gray-600 absolute">
                     <div className="bridge bg-gray-600 absolute"></div>
-                    <TextEditor />
+                    <TextEditor textElm={ currentlySelectedElm ?? null} editValues={ editElm } />
                </div>
             </div>
             <div className="footer bg-gray-800 rounded w-full flex flex-row-reverse pb-1">

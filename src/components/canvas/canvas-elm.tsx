@@ -43,6 +43,8 @@ const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelec
                             y={ toolItem.y }
                             width={ toolItem.width ? toolItem.width : TEXT_ELEMENT_CONFIG.MIN_WIDTH_TEXT }
                             fontSize={ toolItem.fontSize ?? TEXT_ELEMENT_CONFIG.DEFAULT_FONT_SIZE }
+                            fontStyle= { toolItem.fontStyle ?? TEXT_ELEMENT_CONFIG.DEFAULT_FONT_STYLE }
+                            fontFamily= { toolItem.fontFamily ?? TEXT_ELEMENT_CONFIG.DEFAULT_FONT_FAMILY }
                             padding={ TEXT_ELEMENT_CONFIG.PADDING_TEXT }
                             draggable
                             scaleX={ TEXT_ELEMENT_CONFIG.DEFAULT_SCALE_TEXT }
@@ -96,7 +98,7 @@ const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelec
                 </React.Fragment>
             )
         default:
-            return <>No tool item provided</>
+            return <React.Fragment><Text text="No node data provided"/></React.Fragment>
     }
 }
 

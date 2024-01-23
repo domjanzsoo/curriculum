@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextElm } from '../../interfaces';
+import { TextElm, ToolItem } from '../../interfaces';
 
 const fontTypes = [
     'Arial',
@@ -14,15 +14,22 @@ const fontTypes = [
 ];
 
 interface ComponentProps {
-    textElm?: TextElm
+    textElm: ToolItem & TextElm | null,
+    editValues: Function
 }
 
 
-const TextEditor: React.FC<ComponentProps> = ({ textElm }): JSX.Element => {
+const TextEditor: React.FC<ComponentProps> = ({ textElm, editValues }): JSX.Element => {
     return (
         <div className="grid grid-cols-3 gap-4 w-full">
             <div className="col-span-1 text-center">
-                <select id="size" name="fontSize" autoComplete="size" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6">
+                <select
+                    id="size"
+                    name="fontSize"
+                    autoComplete="size"
+                    onChange={event => editValues('fontSize', event.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
+                >
                 <option value="5">5px</option>
                 <option value="6">6px</option>
                 <option value="7">7px</option>
@@ -49,15 +56,28 @@ const TextEditor: React.FC<ComponentProps> = ({ textElm }): JSX.Element => {
                 </select>
             </div>
             <div className="col-span-1 text-center">
-                <select id="style" name="fontStyle" autoComplete="style" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6">
-                    <option>Style</option>
+                <select
+                    id="style"
+                    name="fontStyle"
+                    onChange={event => editValues('fontStyle', event.target.value)}
+                    autoComplete="style"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
+                >
+                    <option value="normal">Style</option>
                     <option value="bold">Bold</option>
                     <option value="italic">Italic</option>
-                    <option value="underline">Underline</option>
+                    <option value="italic bold">Italic Bold</option>
+                    <option value="normal">None</option>
                 </select>
             </div>
             <div className="col-span-1">
-                <select id="fontFamily" name="fontFamily" autoComplete="style" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6">
+                <select
+                    id="fontFamily"
+                    name="fontFamily"
+                    autoComplete="style"
+                    onChange={event => editValues('fontFamily', event.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
+                >
                     {
                         fontTypes.map((fontType, index) => <option key={ index } value={ fontType.toLocaleLowerCase().replace(/\s+/g, '') }> { fontType } </option>)
                     }

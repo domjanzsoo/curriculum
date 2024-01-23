@@ -39,6 +39,22 @@ const StageReducer = (state = initialState, action: CommonAction) => {
                 }),
                 currentlySelectedElement: action.payload?.elm.id
             });
+        case 'SELECT_ELEMENT':
+            return Object.assign({}, state, {
+                currentlySelectedElement: action?.payload?.elmId
+            });
+        case 'UPDATE_TOOL_ELEMENTS':
+            return Object.assign({}, state, {
+                pages: state.pages.map(page => {
+                    if (page.id === state.currentlyEditedPage) {
+                        page.contentElms = page.contentElms.map(elm => {
+                            return (elm.id === action?.payload?.elm.id) ? action?.payload?.elm : elm;
+                        });
+                    }
+
+                    return page;
+                })
+            })
         default:
             return state;
     }

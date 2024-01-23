@@ -84,13 +84,16 @@ const mapDispatchToProps = (dispatch: Function) => {
             selectPage: (page: number) => {
                 dispatch({ type: 'SELECT_PAGE', payload: { page }});
             },
+            selectElement: (elmId: string) => {
+                dispatch({ type: 'SELECT_ELEMENT', payload: { elmId } })
+            },
             updateElements: () => {
                 console.log('update');
             }
         };
 }
 
-const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string, updateElements: Function }): JSX.Element => {
+const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements, selectElement }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string, updateElements: Function, selectElement: Function }): JSX.Element => {
     const [selectedItem, setSelectedItem] = React.useState<ToolItem & Resizable & Draggable & TextElm | null>(null)
     const [displayTextArea, setDisplayTextArea] = React.useState<boolean>(false);
     const stageRef = React.useRef<any>();
@@ -121,6 +124,11 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: 
         }
     };
 
+    const handleElementSelection = (elm: ToolItem & Resizable & Draggable & TextElm) => {
+        selectElement(elm.id);
+        setSelectedItem(elm);
+    };
+
     return (
         <div>
             {
@@ -148,7 +156,7 @@ const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements }: 
                                                     key={ elm.id }
                                                     toolItem={ elm }
                                                     isSelected={elm.id === selectedItem?.id}
-                                                    onSelect={() => setSelectedItem(elm)}
+                                                    onSelect={() => handleElementSelection(elm)}
                                                     dblClickHandling={() => setDisplayTextArea(true)}
                                                     textAreaDisplayed={ displayTextArea }
                                                 />

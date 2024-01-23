@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import { Link } from 'gatsby';
 import { MainState } from '../components/interfaces';
 
-const Test = () => (
-    <div>
-       Test
-    </div>
-);
+const Test = ({stage}) => {
+    console.log(stage)
+
+    return (
+        <div>
+            Test
+        </div>
+    )
+};
 
 const mapStateToProps = (state: MainState) => {
-    return state;
+    return {
+        stage: state.stage
+    };
 };
 
 const mapDispatchToProps = (dispatch: Function) => {
@@ -19,7 +25,8 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test as any);
 
-const DetailsPage = () => {
+const DetailsPage = ({stage}) => {
+    console.log(stage);
     return (
         <main>
             <h2>Details page...</h2>
