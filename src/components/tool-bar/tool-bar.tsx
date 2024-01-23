@@ -131,7 +131,7 @@ const ToolBar: React.FC<ComponentProps> = ({ newToolElm, reposition, toolbar, ad
                 </div>
                <div className="editor-panel bg-gray-600 absolute">
                     <div className="bridge bg-gray-600 absolute"></div>
-                    <TextEditor textElm={ currentlySelectedElm ?? null} editValues={ editElm } />
+                    <TextEditor textElm={ currentlySelectedElm ?? null} updateValues={ editElm } />
                </div>
             </div>
             <div className="footer bg-gray-800 rounded w-full flex flex-row-reverse pb-1">

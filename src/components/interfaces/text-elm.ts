@@ -1,6 +1,7 @@
 import Konva from 'konva';
 
 export interface TextElm {
+    [key: string]: string | number | Konva.Text | undefined,
     id: string,
     fontFamily: string,
     fontStyle: string,

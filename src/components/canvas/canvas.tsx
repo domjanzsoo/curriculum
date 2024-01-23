@@ -52,16 +52,6 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
             cancelTextArea();
         }
 
-        // New width of the textarea
-        const scale = textElm.node.getAbsoluteScale().x;
-        let newWidth = textElm.node.width() * scale;
-        if (!newWidth) {
-            newWidth = textElm.node.placeholder.length * textElm.node.fontSize()
-        }
-
-        areaRef.current.style.width = newWidth + 'px';
-
-        // New height of the textarea
         areaRef.current.style.height = areaRef.current.scrollHeight + textElm.node.fontSize() + 'px';
     };
 
@@ -91,9 +81,17 @@ const mapDispatchToProps = (dispatch: Function) => {
                 console.log('update');
             }
         };
+};
+
+interface CanvasPageProps {
+    pages: Array<Page>,
+    selectPage: Function,
+    currentlyEditedPage: string,
+    updateElements: Function,
+    selectElement: Function
 }
 
-const CanvasPage = ({ pages, selectPage, currentlyEditedPage, updateElements, selectElement }: { pages: Array<Page>, selectPage: Function, currentlyEditedPage: string, updateElements: Function, selectElement: Function }): JSX.Element => {
+const CanvasPage: React.FC<CanvasPageProps> = ({ pages, selectPage, currentlyEditedPage, updateElements, selectElement }): JSX.Element => {
     const [selectedItem, setSelectedItem] = React.useState<ToolItem & Resizable & Draggable & TextElm | null>(null)
     const [displayTextArea, setDisplayTextArea] = React.useState<boolean>(false);
     const stageRef = React.useRef<any>();

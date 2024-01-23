@@ -15,11 +15,11 @@ const fontTypes = [
 
 interface ComponentProps {
     textElm: ToolItem & TextElm | null,
-    editValues: Function
+    updateValues: Function
 }
 
 
-const TextEditor: React.FC<ComponentProps> = ({ textElm, editValues }): JSX.Element => {
+const TextEditor: React.FC<ComponentProps> = ({ textElm, updateValues }): JSX.Element => {
     return (
         <div className="grid grid-cols-3 gap-4 w-full">
             <div className="col-span-1 text-center">
@@ -27,7 +27,7 @@ const TextEditor: React.FC<ComponentProps> = ({ textElm, editValues }): JSX.Elem
                     id="size"
                     name="fontSize"
                     autoComplete="size"
-                    onChange={event => editValues('fontSize', event.target.value)}
+                    onChange={event => updateValues('fontSize', event.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
                 >
                 <option value="5">5px</option>
@@ -59,7 +59,7 @@ const TextEditor: React.FC<ComponentProps> = ({ textElm, editValues }): JSX.Elem
                 <select
                     id="style"
                     name="fontStyle"
-                    onChange={event => editValues('fontStyle', event.target.value)}
+                    onChange={event => updateValues('fontStyle', event.target.value)}
                     autoComplete="style"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
                 >
@@ -75,7 +75,7 @@ const TextEditor: React.FC<ComponentProps> = ({ textElm, editValues }): JSX.Elem
                     id="fontFamily"
                     name="fontFamily"
                     autoComplete="style"
-                    onChange={event => editValues('fontFamily', event.target.value)}
+                    onChange={event => updateValues('fontFamily', event.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs text-sm leading-6"
                 >
                     {

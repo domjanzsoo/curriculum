@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'gatsby';
-import { MainState } from '../components/interfaces';
+import { MainState, Stageable } from '../components/interfaces';
 
-const Test = ({stage}) => {
+const Test: React.FC<{ stage: Stageable }> = ({stage}) => {
     console.log(stage)
 
     return (
@@ -25,8 +25,7 @@ const mapDispatchToProps = (dispatch: Function) => {
 
 const ConnectedTest = connect(mapStateToProps, mapDispatchToProps)(Test as any);
 
-const DetailsPage = ({stage}) => {
-    console.log(stage);
+const DetailsPage = () => {
     return (
         <main>
             <h2>Details page...</h2>
