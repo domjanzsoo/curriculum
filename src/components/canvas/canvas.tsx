@@ -17,6 +17,7 @@ interface TextAreaProps {
 }
 
 const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, cancelTextArea}) => {
+    let scrollHeight = 0;
     const areaRef = React.useRef<any>();
     const [textValue, setTextValue] = React.useState<string>(textElm.text);
 
@@ -29,6 +30,7 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
         lineHeight: textElm.node.lineHeight(),
         fontWeight: textElm.node.fontStyle(),
         fontStyle: textElm.node.fontStyle(),
+        scrollbarWidth: 'none',
         color: textElm.node.fill(),
         border: 'none',
         fontSize: textElm.node.fontSize() + 'px',
@@ -51,13 +53,15 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
 
     const textTypeEventHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const target = event.target as HTMLTextAreaElement;
+        const additonalHeight = event.key === 'Enter' || scrollHeight < areaRef.current.scrollHeight ? textElm.node.fontSize() : 0;
 
         if (event.key === 'Enter' && !event.shiftKey) {
             handleTextChange(target.value);
             cancelTextArea();
         }
 
-        areaRef.current.style.height = areaRef.current.scrollHeight + textElm.node.fontSize() + 'px';
+        areaRef.current.style.height = areaRef.current.scrollHeight + additonalHeight + 'px';
+        scrollHeight = areaRef.current.scrollHeight;
     };
 
     return (
