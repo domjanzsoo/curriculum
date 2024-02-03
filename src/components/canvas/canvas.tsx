@@ -28,6 +28,7 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
         height: textElm.node.height()  + 'px',
         lineHeight: textElm.node.lineHeight(),
         fontWeight: textElm.node.fontStyle(),
+        fontStyle: textElm.node.fontStyle(),
         color: textElm.node.fill(),
         border: 'none',
         fontSize: textElm.node.fontSize() + 'px',

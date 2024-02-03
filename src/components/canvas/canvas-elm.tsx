@@ -33,7 +33,7 @@ const CanvasElement: React.FC<ComponentProps> = ({ toolItem, isSelected, onSelec
         case 'text':
             return (
                 <React.Fragment>
-                    {!textAreaDisplayed &&
+                    {(!textAreaDisplayed || !isSelected) &&
                         <Text
                             key={ toolItem.id }
                             ref={ elmRef }
