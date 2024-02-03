@@ -22,14 +22,15 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
 
     const style: React.CSSProperties = {
         position: 'absolute',
-        left: stage.container().offsetLeft + textElm.node.absolutePosition().x + 'px',
-        top: stage.container().offsetTop + textElm.node.absolutePosition().y + 'px',
+        left: stage.container().offsetLeft + textElm.node.absolutePosition().x + 4  + 'px',
+        top: stage.container().offsetTop + textElm.node.absolutePosition().y + 3 + 'px',
         width: textElm.width ?? 0 + textElm.node.padding() * 2 + 'px',
-        height: textElm.height ?? 0 - textElm.node.padding() * 2 + 5  + 'px',
+        height: textElm.node.height()  + 'px',
         lineHeight: textElm.node.lineHeight(),
+        fontWeight: textElm.node.fontStyle(),
         color: textElm.node.fill(),
         border: 'none',
-        fontSize: textElm.node.fontSize(),
+        fontSize: textElm.node.fontSize() + 'px',
         fontFamily: textElm.node.fontFamily(),
         transformOrigin: 'left top',
         padding: '0px',
@@ -41,7 +42,10 @@ const TextArea: React.FC<TextAreaProps> = ({stage, textElm, handleTextChange, ca
     };
 
     React.useEffect(() => {
-        if(areaRef.current) areaRef.current.focus();
+        if(areaRef.current) {
+            areaRef.current.focus();
+            areaRef.current.setSelectionRange(textValue.length, textValue.length);
+        }
     });
 
     const textTypeEventHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
